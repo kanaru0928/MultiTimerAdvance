@@ -16,8 +16,11 @@
     <template id="timer_tmp">
         <div class="timer">
             <input type="text"><br>
-            <input type="text" class="num min" value="1">：
-            <input type="text" class="num sec" value="0"><br>
+            <div class="num_container">
+                <input type="text" class="num hour" value="0">：
+                <input type="text" class="num min" value="1">：
+                <input type="text" class="num sec" value="0">
+            </div>
             <p class="display" id="display"></p>
             <button>スタート/ストップ</button>
         </div>
