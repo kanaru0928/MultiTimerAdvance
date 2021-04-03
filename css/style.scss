@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    section {
+        margin: 10px;
+        padding: 10px;
+        .flow {
+            display: inline-flex;
+            box-shadow: 3px 3px 15px rgba(0, 0, 0, .2);
+            .timer {
+                margin: 3px;
+                border: solid black thin;
+            }
+        }
+    }
+}
