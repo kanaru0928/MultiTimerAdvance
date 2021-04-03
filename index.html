@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
     <title>MultiTimerAdvance</title>
 </head>
@@ -12,11 +13,17 @@
     <header>
         <h1>MultiTimerAdvance</h1>
     </header>
+    <template id="timer_tmp">
+        <div class="timer">
+            <input type="text"><br>
+            <input type="text" class="num min" value="1">：
+            <input type="text" class="num sec" value="0"><br>
+            <p class="display" id="display"></p>
+            <button>スタート/ストップ</button>
+        </div>
+    </template>
     <section>
-        <div class="flow">
-            <div class="timer">
-                Name:<input type="text">
-            </div>
+        <div class="flow" id="flow">
         </div>
     </section>
 </body>

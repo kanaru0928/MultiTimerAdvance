@@ -1,7 +1,10 @@
 * {
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  font-size: 14pt; }
 
+html header h1 {
+  font-size: 24pt; }
 html section {
   margin: 10px;
   padding: 10px; }
@@ -11,5 +14,7 @@ html section {
     html section .flow .timer {
       margin: 3px;
       border: solid black thin; }
+      html section .flow .timer .num {
+        width: 2em; }
 
 /*# sourceMappingURL=style.css.map */

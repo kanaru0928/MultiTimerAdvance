@@ -1,9 +1,15 @@
 * {
     margin: 0;
     padding: 0;
+    font-size: 14pt;
 }
 
 html {
+    header {
+        h1 {
+            font-size: 24pt;
+        }
+    }
     section {
         margin: 10px;
         padding: 10px;
@@ -13,6 +19,9 @@ html {
             .timer {
                 margin: 3px;
                 border: solid black thin;
+                .num {
+                    width: 2em;
+                }
             }
         }
     }
