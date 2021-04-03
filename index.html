@@ -17,12 +17,19 @@
         <div class="timer">
             <input type="text"><br>
             <div class="num_container">
-                <input type="text" class="num hour" value="0">：
-                <input type="text" class="num min" value="1">：
-                <input type="text" class="num sec" value="0">
+                <input type="text" class="time_num num hour" value="0">：
+                <input type="text" class="time_num num min" value="01">：
+                <input type="text" class="time_num num sec" value="00">
             </div>
             <p class="display" id="display"></p>
-            <button>スタート/ストップ</button>
+            <button id="start">スタート/ストップ</button>
+            <details>
+                <summary>詳細</summary>
+                <h2>お知らせ</h2>
+                <label><input name="notice" type="radio" checked> なし</label>
+                <label><input name="notice" type="radio"> 指定</label><br>
+                <label><input name="notice" type="radio"> <input type="number" class="num">秒間隔</label>
+            </details>
         </div>
     </template>
     <section>
