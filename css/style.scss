@@ -2,27 +2,180 @@
     margin: 0;
     padding: 0;
     font-size: 14pt;
+    color: white;
+    outline: none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    letter-spacing: .1em;
+    &::selection {
+        color: inherit;
+        background-color: #c471ed7f;
+    }
+}
+
+$white: rgba(255, 255, 255, .2);
+$black: rgba(0, 0, 0, .2);
+@mixin glass($round: 10px) {
+    box-shadow: 3px 3px 15px $black;
+    border-radius: $round;
+    border-top: solid 2px $white;
+    border-left: solid 2px $white;
+    backdrop-filter: blur(10px);
 }
 
 html {
+    background: #12c2e9;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #f64f59, #c471ed, #12c2e9);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #f64f59, #c471ed, #12c2e9);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     header {
+        background-color: white;
+        padding: 10px;
+        box-shadow: 0 3px 10px $black;
         h1 {
-            font-size: 24pt;
+            font-weight: 100;
+            letter-spacing: .07em;
+            margin: 10px 40px;
+            // color: #6C3E82;
+            color: #728726;
+            font-size: 28pt;
         }
     }
     section {
-        margin: 10px;
+        margin: 30px 40px;
         padding: 10px;
+        .option {
+            padding: 18px 30px;
+            background-color: $white;
+            user-select: none;
+            h2 {
+                font-size: 18pt;
+                font-weight: normal;
+            }
+            a {
+                font-size: 18pt;
+                margin-right: 18px;
+                i {
+                    font-size: inherit;
+                    text-shadow: 2px 2px 8px $black;
+                }
+            }
+            @include glass(5000px);
+        }
         .flow {
-            display: inline-flex;
-            box-shadow: 3px 3px 15px rgba(0, 0, 0, .2);
+            position: relative;
+            margin: 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            background-color: $white;
+            padding: 10px;
+            @include glass;
             .timer {
-                margin: 3px;
-                border: solid black thin;
-                .num {
-                    width: 2em;
+                margin: 10px;
+                display: inline-block;
+                @include glass(15px);
+                padding: 20px;
+                padding-top: 15px;
+                user-select: none;
+                * {
+                    user-select: none;
+                }
+                .name {
+                    text-shadow: 2px 2px 8px $black;
+                    font-size: 20pt;
+                    background-color: transparent;
+                    backdrop-filter: blur(10px);
+                    border: none;
+                    width: 0;
+                    min-width: 80%;
+                    padding: 5px 8px;
+                    border-radius: 5px;
+                    &:hover,
+                    &:focus {
+                        background-color: $white;
+                    }
+                }
+                .time_info {
+                    margin: 10px;
+                    height: max(24pt, calc(25px + 1rem));
+                    .num_container {
+                        text-align: center;
+                        .num {
+                            text-shadow: 2px 2px 8px $black;
+                            box-shadow: 3px 3px 10px rgba(0, 0, 0, .1);
+                            background-color: transparent;
+                            border-radius: 5000px;
+                            border: none;
+                            border-top: solid 2px $white;
+                            border-left: solid 2px $white;
+                            padding: 10px;
+                            width: 2em;
+                            backdrop-filter: blur(10px);
+                            &:hover,
+                            &:focus {
+                                box-shadow: 3px 3px 30px $black;
+                                background-color: $white;
+                            }
+                        }
+                    }
+                    .display {
+                        font-size: 24pt;
+                        text-align: center;
+                        text-shadow: 2px 2px 8px $black;
+                    }
+                }
+                button {
+                    text-shadow: 2px 2px 8px $black;
+                    margin: 8px 2px;
+                    background-color: transparent;
+                    border-radius: 5000px;
+                    padding: 10px 15px;
+                    border: none;
+                    border-top: solid 2px $white;
+                    border-left: solid 2px $white;
+                    user-select: none;
+                    box-shadow: 3px 3px 10px rgba(0, 0, 0, .1);
+                    backdrop-filter: blur(10px);
+                    &:hover,
+                    &:active {
+                        box-shadow: 3px 3px 30px $black;
+                        background-color: $white;
+                    }
+                }
+                i.fa-pause {
+                    display: none;
+                }
+                &.selected {
+                    background-color: $white;
+                }
+                progress {
+                    margin: 10px;
+                    margin-bottom: 0;
+                    appearance: none;
+                    height: 7px;
+                    width: 70%;
+                    float: right;
+                }
+                 ::-webkit-progress-value {
+                    background: $white;
+                    background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+                    border-radius: 3px;
+                    opacity: .75;
+                }
+                 ::-webkit-progress-bar {
+                    border-radius: 3px;
+                    background: transparent;
+                    border-top: solid thin $white;
+                    border-left: solid thin $white;
+                    box-shadow: 3px 3px 20px $black;
                 }
             }
         }
+    }
+    .abtn {
+        text-decoration: none;
     }
 }

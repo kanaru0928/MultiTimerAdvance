@@ -3,8 +3,12 @@
 
 <head>
     <meta charset="utf-8">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://kit.fontawesome.com/e83ccfa9aa.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
     <title>MultiTimerAdvance</title>
 </head>
@@ -15,24 +19,26 @@
     </header>
     <template id="timer_tmp">
         <div class="timer">
-            <input type="text"><br>
-            <div class="num_container">
-                <input type="text" class="time_num num hour" value="0">：
-                <input type="text" class="time_num num min" value="01">：
-                <input type="text" class="time_num num sec" value="00">
+            <input type="text" class="name" value="Timer" onfocus="this.select();"><br>
+            <div class="time_info">
+                <div class="num_container">
+                    <input type="text" class="time_num num hour" value="0" onfocus="this.select();">：
+                    <input type="text" class="time_num num min" value="01" onfocus="this.select();">：
+                    <input type="text" class="time_num num sec" value="00" onfocus="this.select();">
+                </div>
+                <p class="display" id="display"></p>
             </div>
-            <p class="display" id="display"></p>
-            <button id="start">スタート/ストップ</button>
-            <details>
-                <summary>詳細</summary>
-                <h2>お知らせ</h2>
-                <label><input name="notice" type="radio" checked> なし</label>
-                <label><input name="notice" type="radio"> 指定</label><br>
-                <label><input name="notice" type="radio"> <input type="number" class="num">秒間隔</label>
-            </details>
+            <button class="start">Start/Stop <i class="fas fa-play"></i><i class="fas fa-pause"></i></button>
+            <button class="reset">Reset</button><br>
+            <progress max="100" value="0"></progress>
         </div>
     </template>
     <section>
+        <div class="option">
+            <!-- <h2>Option</h2> -->
+            <a class="abtn" id="add"><i class="fas fa-plus"></i></a>
+            <a class="abtn" id="delete"><i class="fas fa-trash"></i></a>
+        </div>
         <div class="flow" id="flow">
         </div>
     </section>

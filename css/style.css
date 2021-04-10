@@ -1,20 +1,153 @@
 * {
   margin: 0;
   padding: 0;
-  font-size: 14pt; }
+  font-size: 14pt;
+  color: white;
+  outline: none;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  letter-spacing: .1em; }
+  *::selection {
+    color: inherit;
+    background-color: #c471ed7f; }
 
-html header h1 {
-  font-size: 24pt; }
-html section {
-  margin: 10px;
-  padding: 10px; }
-  html section .flow {
-    display: inline-flex;
-    box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.2); }
-    html section .flow .timer {
-      margin: 3px;
-      border: solid black thin; }
-      html section .flow .timer .num {
-        width: 2em; }
+html {
+  background: #12c2e9;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #f64f59, #c471ed, #12c2e9);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #f64f59, #c471ed, #12c2e9);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ }
+  html header {
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2); }
+    html header h1 {
+      font-weight: 100;
+      letter-spacing: .07em;
+      margin: 10px 40px;
+      color: #728726;
+      font-size: 28pt; }
+  html section {
+    margin: 30px 40px;
+    padding: 10px; }
+    html section .option {
+      padding: 18px 30px;
+      background-color: rgba(255, 255, 255, 0.2);
+      user-select: none;
+      box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.2);
+      border-radius: 5000px;
+      border-top: solid 2px rgba(255, 255, 255, 0.2);
+      border-left: solid 2px rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px); }
+      html section .option h2 {
+        font-size: 18pt;
+        font-weight: normal; }
+      html section .option a {
+        font-size: 18pt;
+        margin-right: 18px; }
+        html section .option a i {
+          font-size: inherit;
+          text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2); }
+    html section .flow {
+      position: relative;
+      margin: 20px 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 10px;
+      box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      border-top: solid 2px rgba(255, 255, 255, 0.2);
+      border-left: solid 2px rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px); }
+      html section .flow .timer {
+        margin: 10px;
+        display: inline-block;
+        box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.2);
+        border-radius: 15px;
+        border-top: solid 2px rgba(255, 255, 255, 0.2);
+        border-left: solid 2px rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        padding: 20px;
+        padding-top: 15px;
+        user-select: none; }
+        html section .flow .timer * {
+          user-select: none; }
+        html section .flow .timer .name {
+          text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+          font-size: 20pt;
+          background-color: transparent;
+          backdrop-filter: blur(10px);
+          border: none;
+          width: 0;
+          min-width: 80%;
+          padding: 5px 8px;
+          border-radius: 5px; }
+          html section .flow .timer .name:hover, html section .flow .timer .name:focus {
+            background-color: rgba(255, 255, 255, 0.2); }
+        html section .flow .timer .time_info {
+          margin: 10px;
+          height: max(24pt, calc(25px + 1rem)); }
+          html section .flow .timer .time_info .num_container {
+            text-align: center; }
+            html section .flow .timer .time_info .num_container .num {
+              text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+              box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+              background-color: transparent;
+              border-radius: 5000px;
+              border: none;
+              border-top: solid 2px rgba(255, 255, 255, 0.2);
+              border-left: solid 2px rgba(255, 255, 255, 0.2);
+              padding: 10px;
+              width: 2em;
+              backdrop-filter: blur(10px); }
+              html section .flow .timer .time_info .num_container .num:hover, html section .flow .timer .time_info .num_container .num:focus {
+                box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.2);
+                background-color: rgba(255, 255, 255, 0.2); }
+          html section .flow .timer .time_info .display {
+            font-size: 24pt;
+            text-align: center;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2); }
+        html section .flow .timer button {
+          text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+          margin: 8px 2px;
+          background-color: transparent;
+          border-radius: 5000px;
+          padding: 10px 15px;
+          border: none;
+          border-top: solid 2px rgba(255, 255, 255, 0.2);
+          border-left: solid 2px rgba(255, 255, 255, 0.2);
+          user-select: none;
+          box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+          backdrop-filter: blur(10px); }
+          html section .flow .timer button:hover, html section .flow .timer button:active {
+            box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.2);
+            background-color: rgba(255, 255, 255, 0.2); }
+        html section .flow .timer i.fa-pause {
+          display: none; }
+        html section .flow .timer.selected {
+          background-color: rgba(255, 255, 255, 0.2); }
+        html section .flow .timer progress {
+          margin: 10px;
+          margin-bottom: 0;
+          appearance: none;
+          height: 7px;
+          width: 70%;
+          float: right; }
+        html section .flow .timer ::-webkit-progress-value {
+          background: rgba(255, 255, 255, 0.2);
+          background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+          border-radius: 3px;
+          opacity: .75; }
+        html section .flow .timer ::-webkit-progress-bar {
+          border-radius: 3px;
+          background: transparent;
+          border-top: solid thin rgba(255, 255, 255, 0.2);
+          border-left: solid thin rgba(255, 255, 255, 0.2);
+          box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.2); }
+  html .abtn {
+    text-decoration: none; }
 
 /*# sourceMappingURL=style.css.map */
