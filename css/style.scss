@@ -43,6 +43,11 @@ html {
             font-size: 28pt;
         }
     }
+    h2 {
+        font-size: 18pt;
+        font-weight: 300;
+        text-shadow: 2px 2px 8px $black;
+    }
     section {
         margin: 30px 40px;
         padding: 10px;
@@ -50,10 +55,6 @@ html {
             padding: 18px 30px;
             background-color: $white;
             user-select: none;
-            h2 {
-                font-size: 18pt;
-                font-weight: normal;
-            }
             a {
                 font-size: 18pt;
                 margin-right: 18px;
@@ -172,6 +173,17 @@ html {
                     border-left: solid thin $white;
                     box-shadow: 3px 3px 20px $black;
                 }
+            }
+        }
+        .share {
+            @include glass();
+            background-color: $white;
+            padding: 20px;
+            textarea {
+                margin-top: 10px;
+                color: #333;
+                letter-spacing: unset;
+                font-size: 11pt;
             }
         }
     }

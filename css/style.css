@@ -28,6 +28,10 @@ html {
       margin: 10px 40px;
       color: #728726;
       font-size: 28pt; }
+  html h2 {
+    font-size: 18pt;
+    font-weight: 300;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2); }
   html section {
     margin: 30px 40px;
     padding: 10px; }
@@ -40,9 +44,6 @@ html {
       border-top: solid 2px rgba(255, 255, 255, 0.2);
       border-left: solid 2px rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(10px); }
-      html section .option h2 {
-        font-size: 18pt;
-        font-weight: normal; }
       html section .option a {
         font-size: 18pt;
         margin-right: 18px; }
@@ -147,6 +148,19 @@ html {
           border-top: solid thin rgba(255, 255, 255, 0.2);
           border-left: solid thin rgba(255, 255, 255, 0.2);
           box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.2); }
+    html section .share {
+      box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      border-top: solid 2px rgba(255, 255, 255, 0.2);
+      border-left: solid 2px rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 20px; }
+      html section .share textarea {
+        margin-top: 10px;
+        color: #333;
+        letter-spacing: unset;
+        font-size: 11pt; }
   html .abtn {
     text-decoration: none; }
 

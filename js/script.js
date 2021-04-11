@@ -55,20 +55,34 @@ class Compare {
 }
 
 class Timer4Json {
-    constructor(name, setTime) {
-        this.name = name;
-        this.setTime = setTime;
+    constructor(obj = "", setTime = 0) {
+        let name_str;
+        let time;
+        if (obj instanceof Timer) {
+            name_str = obj.elem.find(".name").val();
+            time = obj.setTime;
+        } else if (obj instanceof Object) {
+            name_str = obj.n;
+            time = obj.t;
+        } else {
+            name_str = obj;
+            time = setTime;
+        }
+        this.n = name_str;
+        this.t = time;
     }
 
     createElem() {
         addTimer();
         let elem = timers[timers.length - 1].elem;
-        elem.find(".name").val(this.name);
-        let time = ConvertTime.sec2hms(this.setTime);
+        elem.find(".name").val(this.n);
+        let time = ConvertTime.sec2hms(this.t);
         elem.find(".hour").val(time[0]);
         elem.find(".min").val(time[1]);
         elem.find(".sec").val(time[2]);
-        checkTime(elem);
+        checkTime(elem.find(".hour"));
+        checkTime(elem.find(".min"));
+        checkTime(elem.find(".sec"));
     }
 }
 
@@ -215,6 +229,8 @@ function addTimer() {
     $("#flow").append(clone);
     // listenEvent();
     timers.push(new Timer($(".timer").last()));
+    timers[timers.length - 1].init();
+    updateShare();
 }
 
 function deleteTimer() {
@@ -225,6 +241,7 @@ function deleteTimer() {
         timers.splice(tmp[i], 1);
     }
     draw();
+    updateShare();
 }
 
 function swapSelect(index) {
@@ -237,11 +254,28 @@ function swapSelect(index) {
     }
 }
 
+function updateShare() {
+    let url = location.href.split('?')[0];
+    let timers4json = new Array(timers.length);
+    let name_tmp = "";
+    for (let i = 0; i < timers.length; i++) {
+        name_tmp = timers[i].elem.find(".name").val();
+        timers4json[i] = new Timer4Json(name_tmp, timers[i].setTime / SEC);
+    }
+    let json = encodeURIComponent(JSON.stringify(timers4json));
+    let id = btoa(json);
+    let id_str = "?id=" + id;
+    $(".share_txt").html(url + id_str);
+}
+
 function listenEvent() {
     $(document).on("change", '.time_num', function() {
         checkTime(this);
         let index = $(".timer").index($(this).closest(".timer"));
         timers[index].init();
+    });
+    $("#flow").on("change", "input", function() {
+        updateShare();
     });
     $(document).on("click", '.start', function() {
         let index = $(".timer").index($(this).parent());
@@ -303,7 +337,7 @@ function listenEvent() {
         }
     }
     var moving_item;
-    $(".flow").sortable({
+    $("#flow").sortable({
         update: function(event, ui) {
             let to = $(".timer").index(ui.item);
             let val = timers[moving_item];
@@ -320,7 +354,24 @@ function listenEvent() {
     });
 }
 
+function setByUrl() {
+    let url = new URL(window.location.href);
+    let params = url.searchParams;
+    let id = params.get("id");
+    if (id != null) {
+        timers = [];
+        let decoded = JSON.parse(decodeURIComponent(atob(id)));
+        decoded.forEach((t) => {
+            let tmp = new Timer4Json(t);
+            tmp.createElem();
+        });
+        draw();
+    }
+}
+
 $(function() {
     addTimer();
+    setByUrl();
+    updateShare();
     listenEvent();
 });
