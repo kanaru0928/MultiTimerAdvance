@@ -41,6 +41,202 @@ class ConvertTime {
     }
 }
 
+class MTAByte {
+    constructor(val = 0) {
+        this.byte = val;
+        if (val > 0xffffff) {
+            this.byte = 0;
+        }
+    }
+
+    /**
+     * 指定のインデックスを参照
+     * @param {number} index インデックス
+     * @returns nバイト目
+     */
+    at(index) {
+        return MTAByte.getByte(this.byte, 2 - index);
+    }
+
+    /**
+     * 指定のインデックスに代入
+     * @param {number} index インデックス
+     * @param {number} val 値
+     */
+    set(index, val) {
+        if (val < 0x100) {
+            this.byte &= ~(0xff << (index << 3));
+            this.byte += val << (index << 3);
+        }
+    }
+
+    static getByte(val, index) {
+        return val >> (index << 3) & 0xff;
+    }
+
+    static num2byte(val, digit) {
+        let res = [];
+        while (val > 0) {
+            res.push(val & 0xff);
+            val >>= 8;
+        }
+        for (let i = 0; i < digit - res.length; i++) {
+            res.push(0);
+        }
+        res.reverse();
+        console.log({ res });
+        return res;
+    }
+}
+
+class MTAF {
+    /**
+     * 
+     * @param {MTAByte[]} array 
+     */
+    constructor() {
+        this.pointer = [];
+        this.size = 0;
+        this.iterator = 0;
+    }
+
+    push(val) {
+        if (val < 0 && val > 0xff) return;
+        if (this.size % 3 == 0) {
+            this.pointer.push(new MTAByte());
+            this.pointer[this.size / 3].set(2, val);
+        } else {
+            let index = Math.floor(this.size / 3);
+            let at = 2 - this.size % 3;
+            this.pointer[index].set(at, val);
+        }
+        this.size++;
+    }
+
+    toHex() {
+        let res = "";
+        for (let i = 0; i < this.pointer.length; i++) {
+            res += this.pointer[i].byte.toString(16);
+        }
+        return res;
+    }
+
+    toCode() {
+        let res = "";
+        let index;
+        for (let i = 0; i < this.pointer.length; i++) {
+            for (let j = 0; j < 4; j++) {
+                index = this.pointer[i].byte >> (6 * (3 - j)) & 0b111111;
+                res += MTACode.CODE[index];
+            }
+        }
+        return res;
+    }
+
+    at(index) {
+        let i = Math.floor(index / 3);
+        let j = index % 3;
+        console.log({ index, i, j });
+        let res = this.pointer[i].at(j);
+        return res;
+    }
+
+    next() {
+        return this.at(this.iterator++);
+    }
+
+    /**
+     * Timer4json[]型に変換
+     * @returns {Timer4Json[]} タイマー
+     */
+    toTimer() {
+        let fv = this.next();
+        let array = MTAF._FORMAT.get(fv)(this);
+        return array;
+    }
+
+    static get _FORMAT() {
+        let res = new Map();
+        res.set(0x10, function(val) {
+            let len = val.next();
+            let ans = new Array(len);
+            for (let i = 0; i < len; i++) {
+                ans[i] = new Timer4Json();
+                let time = 0;
+                console.log("time");
+                for (let j = 0; j < 2; j++) {
+                    time <<= 8;
+                    time += val.next();
+                }
+                ans[i].t = time;
+                let name_length = val.next();
+                let name_array = new Array(name_length);
+                console.log({ name_length, iter: val.iterator });
+                for (let j = 0; j < name_length; j++) {
+                    name_array[j] = val.next();
+                }
+                let name = Encoding.convert(name_array, { to: 'UNICODE', type: 'string' });
+                ans[i].n = name;
+            }
+            return ans;
+        });
+        return res;
+    }
+
+    /**
+     * MTAFを作成
+     * @param {Timer4Json[]} timer 
+     */
+    static create(timer) {
+        let name_max_length = 0;
+        let name = new Array(timer.length);
+        let res;
+        let max_time = 0;
+        for (let i = 0; i < timer.length; i++) {
+            name[i] = Encoding.convert(timer[i].n, { to: "UTF8", type: "array" });
+            name_max_length = Math.max(name[i].length, name_max_length);
+            max_time = Math.max(max_time, timer[i].t);
+        }
+        if (name_max_length < 0x100 && timer.length < 0x100 && max_time < 0x10000) {
+            let res = new MTAF();
+            res.push(0x10);
+            res.push(timer.length);
+            for (let i = 0; i < timer.length; i++) {
+                let num_byte = MTAByte.num2byte(timer[i].t, 2);
+                console.log({ len: num_byte.length });
+                for (let j = 0; j < 2; j++) {
+                    res.push(num_byte[j]);
+                }
+                res.push(name[i].length);
+                for (let j = 0; j < name[i].length; j++) {
+                    res.push(name[i][j]);
+                }
+            }
+            console.log({ name_max_length, max_time });
+            return res;
+        }
+    }
+
+    static decode(str) {
+        let res_int = 0;
+        let res = new MTAF();
+        let byte;
+        for (let i = 0; i < str.length; i++) {
+            res_int <<= 6;
+            res_int += MTACode.CODE.indexOf(str[i]);
+            console.log({ res_int });
+            if (i % 4 == 3) {
+                byte = MTAByte.num2byte(res_int, 3);
+                for (let j = 0; j < 3; j++) {
+                    res.push(byte[j]);
+                }
+                res_int = 0;
+            }
+        }
+        return res;
+    }
+}
+
 class Compare {
     static greater(a, b) {
         if (a > b) return -1;
@@ -54,7 +250,15 @@ class Compare {
     }
 }
 
+/**
+ * 共有用データ構造
+ */
 class Timer4Json {
+    /**
+     * コンストラクタ
+     * @param {Timer|Object|string} obj タイマー/名前
+     * @param {number} setTime [時間]
+     */
     constructor(obj = "", setTime = 0) {
         let name_str;
         let time;
@@ -254,16 +458,20 @@ function swapSelect(index) {
     }
 }
 
+var timers4json;
+
 function updateShare() {
     let url = location.href.split('?')[0];
-    let timers4json = new Array(timers.length);
+    timers4json = new Array(timers.length);
     let name_tmp = "";
     for (let i = 0; i < timers.length; i++) {
         name_tmp = timers[i].elem.find(".name").val();
         timers4json[i] = new Timer4Json(name_tmp, timers[i].setTime / SEC);
     }
-    let json = encodeURIComponent(JSON.stringify(timers4json));
-    let id = btoa(json);
+    let mtaf = MTAF.create(timers4json);
+    let id = mtaf.toCode();
+    // let json = encodeURIComponent(JSON.stringify(timers4json));
+    // let id = btoa(json);
     let id_str = "?id=" + id;
     $(".share_txt").html(url + id_str);
 }
@@ -360,7 +568,8 @@ function setByUrl() {
     let id = params.get("id");
     if (id != null) {
         timers = [];
-        let decoded = JSON.parse(decodeURIComponent(atob(id)));
+        let decoded = MTAF.decode(id).toTimer();
+        // let decoded = JSON.parse(decodeURIComponent(atob(id)));
         decoded.forEach((t) => {
             let tmp = new Timer4Json(t);
             tmp.createElem();
